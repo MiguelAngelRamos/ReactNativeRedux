@@ -1,0 +1,2 @@
+export const COMPLETE_TODO = 'COMPLETE_TODO';
+export const SUBMIT_TODO = 'SUBMIT_TODO';
