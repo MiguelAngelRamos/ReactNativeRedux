@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
+import { StyleSheet, View, FlatList } from 'react-native';
 import ListItem from '../components/ListItem';
-import { completeAction } from '../actions/todoAction';
+import { completeAction, submitAction } from '../actions/todoAction';
+import InputTodo from '../components/InputTodo';
 
 const HomeTodo = (props) => {
-  console.log(props);
-  const { data, complete } = props;
+  // console.log(props);
+  const [value, setValue] = useState('');
+  // console.log(props);
+  const { data, complete, submit } = props;
+
+  const handleChange = (val) => {
+    console.log(val);
+    setValue(val);
+  }
+  const handleSubmit = () => {
+    submit(value);
+    setValue('');
+  }
   return (
     <View style={styles.container}>
+      <InputTodo 
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        value={value}
+      />
      <FlatList 
       data={data}
       keyExtractor = { item => item.id.toString()}
@@ -32,7 +49,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  complete: (id) => dispatch(completeAction(id))
+  complete: (id) => dispatch(completeAction(id)),
+  submit: (val) => dispatch(submitAction(val))
 });
 
 const styles = StyleSheet.create({
@@ -40,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 50,
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'flex-start',
+    marginHorizontal: 20,
     justifyContent: 'flex-start'
   }
 });

@@ -9,9 +9,11 @@ const initialState = [
 export default function todoReducer(state = initialState, action) {
   switch (action.type) {
     case COMPLETE_TODO:
-      return state.map( item=> item.id === action.payload? ({...item, completed: true}): item);
+      // return state.map( item=> item.id === action.payload? ({...item, completed: true}): item);
+      return state.map( item=> item.id === action.payload? ({...item, completed: !item.completed}): item);
     case SUBMIT_TODO:
-      return state;
+      // de manera  que todo lo que agregamos sea el primero en la lista
+      return [action.payload].concat(state);
     default:
       return state;
   }
