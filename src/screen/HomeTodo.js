@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import ListItem from '../components/ListItem';
+import { completeAction } from '../actions/todoAction';
 
 const HomeTodo = (props) => {
-  const { data } = props;
+  console.log(props);
+  const { data, complete } = props;
   return (
     <View style={styles.container}>
      <FlatList 
@@ -14,6 +16,7 @@ const HomeTodo = (props) => {
         <ListItem 
           completed={ item.completed}
           desc={item.desc}
+          onPress={ () => complete(item.id)}
         />
       )}
      />
@@ -27,6 +30,11 @@ const mapStateToProps = state => {
     data: state.todos
   };
 }
+
+const mapDispatchToProps = dispatch => ({
+  complete: (id) => dispatch(completeAction(id))
+});
+
 const styles = StyleSheet.create({
   container: {
     marginTop: 50,
@@ -37,5 +45,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps)(HomeTodo);
+export default connect(mapStateToProps, mapDispatchToProps)(HomeTodo);
 
