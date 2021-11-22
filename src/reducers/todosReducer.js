@@ -9,7 +9,7 @@ const initialState = [
 export default function todoReducer(state = initialState, action) {
   switch (action.type) {
     case COMPLETE_TODO:
-      return state;
+      return state.map( item=> item.id === action.payload? ({...item, completed: true}): item);
     case SUBMIT_TODO:
       return state;
     default:

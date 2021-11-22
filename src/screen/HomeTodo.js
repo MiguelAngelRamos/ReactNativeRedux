@@ -1,14 +1,41 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+import ListItem from '../components/ListItem';
 
-const HomeTodo = () => {
+const HomeTodo = (props) => {
+  const { data } = props;
   return (
-    <View>
-      <Text>Home Todo </Text>
+    <View style={styles.container}>
+     <FlatList 
+      data={data}
+      keyExtractor = { item => item.id.toString()}
+      renderItem={ ({ item }) => (
+        <ListItem 
+          completed={ item.completed}
+          desc={item.desc}
+        />
+      )}
+     />
     </View>
   )
 }
 
-export default HomeTodo
+const mapStateToProps = state => {
+  // console.log(state.todos);
+  return {
+    data: state.todos
+  };
+}
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 50,
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start'
+  }
+});
 
-const styles = StyleSheet.create({})
+export default connect(mapStateToProps)(HomeTodo);
+
